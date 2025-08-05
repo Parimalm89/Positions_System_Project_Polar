@@ -84,7 +84,7 @@ void readfile()
                                         TradePositionModel posModel = new TradePositionModel();
                                         posModel.Symbol = arry[0];
                                         posModel.position = Convert.ToInt64(arry[1]);
-                                        posModel.Tick = Convert.ToDateTime(arry[2]).ToUniversalTime();
+                                        posModel.Tick = Convert.ToDateTime(arry[2]);
                                         posModels.Add(posModel);
                                     }
                                     else if (Path.GetFileName(file).ToLower().Contains("ticks"))
@@ -92,7 +92,7 @@ void readfile()
                                         TradeTickModel tickModel = new TradeTickModel();
                                         tickModel.Symbol = arry[0];
                                         tickModel.Price = Convert.ToDecimal(arry[1]);
-                                        tickModel.Tick = Convert.ToDateTime(arry[2]).ToUniversalTime();
+                                        tickModel.Tick = Convert.ToDateTime(arry[2]);
                                         tickModels.Add(tickModel);
                                     }
                                 }
@@ -119,8 +119,8 @@ void readfile()
             latestTime = tickMaxtime;
 
 
-        var latestPost = posModels.Where(x => x.Tick == latestTime).ToList();
-        var latestTick = tickModels.Where(x => x.Tick == latestTime).ToList();
+        var latestPost = posModels.Where(x => Convert.ToDateTime(x.Tick).ToLongTimeString() == Convert.ToDateTime(latestTime).ToLongTimeString()).ToList();
+        var latestTick = tickModels.Where(x => Convert.ToDateTime(x.Tick).ToLongTimeString() == Convert.ToDateTime(latestTime).ToLongTimeString()).ToList();
 
         foreach (var pos in latestPost.ToList())
         {
